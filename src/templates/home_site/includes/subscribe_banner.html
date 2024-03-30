@@ -1,0 +1,50 @@
+
+        <!--========== Subcribe Section Start ==============-->
+        <section class="tj-subcribe-section text-white">
+            <div class="container" >
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="subcribe-content-area text-center">
+                            <h3 class="title">Don't miss out - join our mailing list and take your product development to the next level!</h3>
+                            <form 
+                            hx-post="{% url 'subscribe_email' %}"
+                            hx-swap="outerHTML show:top"
+                            
+                            >
+                            <div class="subcribe-input-form">
+                                <div class="subcribe-input">
+
+
+                                        <input
+                                        type="email"
+                                        id="mailOne"
+                                        name="email"
+                                        placeholder="Enter your email address"
+                                        required=""
+                                        />
+                                    </div>
+                                    <div class="tj-subcribe-button">
+                                        <button class="tj-primary-white-btn" type="submit" value="submit">
+                                            Sign up for free
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="subcribe-list text-center">
+                                    <ul class="list-gap">
+                                        <li><i class="flaticon-checkmark"></i> Unsubscribe at any time</li>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tj-circle-box6">
+                <span class="circle-1"></span>
+                <span class="circle-2"></span>
+                <span class="circle-4"></span>
+                <span class="circle-5"></span>
+                <span class="circle-6"></span>
+            </div>
+        </section>
+        <!--========== Subcribe Section End ==============-->
