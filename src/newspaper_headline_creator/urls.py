@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from django.views.generic.base import TemplateView #import TemplateView
+from django.conf.urls.static import static
+from django.conf import settings
 
 from . import views
 
@@ -33,4 +35,4 @@ urlpatterns = [
     path('terms_and_conditions/', views.terms_and_conditions, name="terms_and_conditions",),
 
 
-] 
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -22,7 +22,9 @@
 
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 px-5 mb-4 border-bottom">
             <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                {% if site.site_logo %}
                 <img alt="Logo" src="{{site.site_logo.url}}" width="200"  class="bi me-2 p-2" />
+                {% endif %}
 
             </a>
     
@@ -45,10 +47,10 @@
 
                 {% else %}
                 <div class="m-2">
-                    <a class="btn site-button" href="{% url "dashboard_home" %}"> Dashboard </a>
+                    <a class="btn site-button" href=""> Dashboard </a>
                 </div>
                 <div class="m-2">
-                    <a class="btn " href="{% url "logout_user" %}">Logout</a>
+                    <a class="btn " href="">Logout</a>
                 </div> 
 
                 {% endif %}

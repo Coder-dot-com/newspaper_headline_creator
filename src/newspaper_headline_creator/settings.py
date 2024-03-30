@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +21,125 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-fzsca!o=a4czob(*t-xd-3ks*fm)$_pvs#jj66f(l6316_*!6u'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+STATIC_ROOT = BASE_DIR /'static'
+STATICFILES_DIRS = [
+    'newspaper_headline_creator/static',
+]
 
-ALLOWED_HOSTS = []
+MEDIA_ROOT =  '/media/'
 
+#S3 config
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY') 
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME') 
+
+AWS_QUERYSTRING_AUTH = False #For now
+
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+# s3 static settings
+AWS_DEFAULT_ACL = 'public-read'
+AWS_LOCATION = ''
+
+SECRET_KEY = config('SECRET_KEY')
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0'] 
+#if false add allowed hosts here
+ALLOWED_HOSTS.extend(
+    filter(
+        None,
+        config('ALLOWED_HOSTS', '').split(','),
+    )
+)
+
+
+# Email SMTP
+
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_SMTP_PASS') 
+EMAIL_USE_TLS = True
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+if str(BASE_DIR) == "/APP/src":
+    DEBUG = config('DEBUG', default=False, cast=bool)
+
+    # #HTTPS settings
+
+    USE_X_FORWARDED_HOST = True
+
+    CSRF_TRUSTED_ORIGINS = [f"https://{x}" for x in ALLOWED_HOSTS]
+
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+    CSRF_COOKIE_SECURE = True
+
+    SESSION_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 3600 # increase to 1 year eventually
+    SECURE_SSL_REDIRECT = True #re enable in product
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+    # With docker
+    CELERY_BROKER_URL = 'redis://redis:6379'
+    CELERY_RESULT_BACKEND = 'redis://redis:6379'
+
+    SITE_ID = int(config('PRODUCTION_SITE_ID'), 0)
+    CURRENT_ENVIRONMENT = "production"
+
+    DATABASES = {
+    "default": {
+        "ENGINE": config("SQL_ENGINE"),
+        "NAME": config("SQL_DATABASE"),
+        "USER": config("SQL_USER"),
+        "PASSWORD": config("SQL_PASSWORD"),
+        "HOST": config("SQL_HOST"),
+        "PORT": config("SQL_PORT"),
+        # 'DISABLE_SERVER_SIDE_CURSORS': True,   # <------ Only for PostgreSQL
+    }
+}
+    
+    
+
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+    MEDIA_URL = AWS_S3_CUSTOM_DOMAIN + MEDIA_ROOT     
+
+    STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
+    STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')
+    STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')                                            
+
+
+else:
+    DEBUG = True       
+
+    # Local
+    CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+    CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+
+    SITE_ID = int(config('LOCAL_SITE_ID'), 0)
+    CURRENT_ENVIRONMENT = "local"
+    
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
+    STATIC_URL = 'static/'
+
+
+    MEDIA_URL = '/media/'
+
+    STRIPE_SECRET_KEY = config('TEST_STRIPE_SECRET_KEY')
+    STRIPE_PUBLIC_KEY = config('TEST_STRIPE_PUBLIC_KEY')
+    STRIPE_ENDPOINT_SECRET = config('TEST_STRIPE_ENDPOINT_SECRET')
 
 # Application definition
 
@@ -37,6 +150,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+        #s3
+    'storages',
+
+    'site_settings'
 ]
 
 MIDDLEWARE = [
@@ -62,6 +179,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'site_settings.context_processors.get_site_details',
             ],
         },
     },
