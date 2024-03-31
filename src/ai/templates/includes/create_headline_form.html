@@ -37,7 +37,7 @@ hx-trigger="bs-send"
       </div>
     </div> {% endcomment %}
     <div class="col-12">
-      <button class="btn site-button float-end" type="submit">Create</button>
+      <button id="submitCreateHeadlineBtn" class="btn site-button float-end" type="submit">Create</button>
     </div>
   </form>
                       
@@ -55,7 +55,7 @@ hx-trigger="bs-send"
         if (form.checkValidity()) {
           // trigger custom event hx-trigger="bs-send"
           htmx.trigger(form, "bsSend");
-          console.log('bsSend')
+          document.querySelector('#submitCreateHeadlineBtn').disabled = true;
         }
 
         console.log('prevent')      
