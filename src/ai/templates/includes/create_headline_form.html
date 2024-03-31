@@ -1,13 +1,14 @@
-<form class="" novalidate 
-hx-post={% url "submit_create_headline_form_htmx" %}
+<form class="needs-validation" novalidate 
+hx-post={% url "submit_create_headline_form_htmx" %} 
 hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
 hx-target="#submitHeadlineResponse"
 hx-swap="outerHTML"
+hx-trigger="bs-send"
 >
     <div class="my-2">
       <label for="validationCustom01" class=" fw-bold form-label">Copy and paste your article here</label>
-      <textarea type="text" max-length="20000" rows=10 class="form-control" id="validationCustom01"  required></textarea>
-      <div class="float-right text-small text-end">Max character limit of 20 000</div>
+      <textarea type="text" max-length="10000" rows="10" name="article" class="form-control" id="validationCustom01"  required></textarea>
+      <div class="float-right text-small text-end">Max character limit of 10 000</div>
       <div class="valid-feedback">
         Looks good!
       </div>
@@ -16,8 +17,8 @@ hx-swap="outerHTML"
       </div>
     </div>
     <div class="my-2">
-      <label for="validationCustom02" class="fw-bold form-label">Enter a tone (optional)</label>
-      <input type="text" class="form-control" id="validationCustom02" value="" >
+      <label for="validationCustom02" class="fw-bold form-label">Enter a tone (optional) e.g. serious, funny etc..</label>
+      <input type="text" class="form-control" name="tone" id="validationCustom02" value="" max-length="200">
       <div class="valid-feedback">
         Looks good!
       </div>
@@ -40,30 +41,33 @@ hx-swap="outerHTML"
     </div>
   </form>
                       
+<script>
+(function () {
+  'use strict'
 
-  <script>
-                      // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (() => {
-          'use strict'
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
 
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-          const forms = document.querySelectorAll('.needs-validation')
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (form.checkValidity()) {
+          // trigger custom event hx-trigger="bs-send"
+          htmx.trigger(form, "bsSend");
+          console.log('bsSend')
+        }
 
-          // Loop over them and prevent submission
-          Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-              if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-              }
+        console.log('prevent')      
+        event.preventDefault()
+        event.stopPropagation()
 
-              form.classList.add('was-validated')
-            }, false)
-          })
-        })()
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
 
-
-  </script>
+</script>
 
 
   <div id="submitHeadlineResponse">

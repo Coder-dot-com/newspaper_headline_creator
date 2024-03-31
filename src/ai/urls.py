@@ -20,9 +20,9 @@ from . import views, views_htmx
 
 urlpatterns = [
     
-    path("create_headline_form_htmx", views_htmx.create_headline_form_htmx, name="create_headline_form_htmx"),
     path("submit_create_headline_form_htmx", views_htmx.submit_create_headline_form_htmx, name="submit_create_headline_form_htmx"),
 
+    path("poll_create_headline_form_htmx/<uuid>", views_htmx.poll_create_headline_form_htmx, name="poll_create_headline_form_htmx"),
 
 
 

@@ -1,6 +1,42 @@
 <div id="submitHeadlineResponse" class="my-5">
-    <h2>
-        headlines
-    </h2>
+    <span class="fw-bold">
+        Headlines/Titles:
+    </span>
+    
+    {% if submitted %}
+
+    <div 
+    hx-get={% url "poll_create_headline_form_htmx" headline_request_object.unique_id %}
+    hx-trigger="every 2s"
+    hx-target="#submitHeadlineResponse"
+    hx-swap=outerHTML
+    
+    >
+        <div class=" text-center my-5">
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+            <strong role="status">Loading...</strong>
+            Please allow up to a minute for your response
+        </div>
+    </div>
+
+    {% elif headline_request_object.response %}
+    <br>
+    <h5>
+        {% for headline  in headline_request_object.get_list_of_headlines %}
+    </h5>
+    
+    {{headline}}
+
+    <br><br> 
+    
+    {% endfor %}
+
+    
+
+
+
+    {% endif %}
+
+
 
 </div>

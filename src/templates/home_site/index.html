@@ -26,8 +26,9 @@
 
       <h2 class="display-6 fw-bold  text-center">Create now</h2>
 
-      <div id="createHeadlineForm" class="col-md-9 col-lg-6 p-5 mx-auto g-3 needs-validation border border-dark border-3 rounded">
-        <div hx-get={% url "create_headline_form_htmx" %} hx-trigger=load></div>
+      <div id="createHeadlineForm" class="col-md-9 col-lg-6 p-5 mx-auto g-3 needs-validation border border-dark border-3 rounded shadow-lg">
+        {% include "includes/create_headline_form.html" %}
+
       </div>
         
 

@@ -15,7 +15,8 @@ class HeadlineRequest(models.Model):
     user_ai = models.ForeignKey(UserAI, on_delete=models.CASCADE, null=True, blank=True)
     session_id  = models.CharField(max_length=1000, null=True, blank=True)
     unique_id = models.UUIDField(default = uuid.uuid4,) 
-    input_phrase = models.CharField(max_length=20000)
+    input_phrase = models.TextField(max_length=10000)
+    tone = models.CharField(max_length=200)
     time_created = models.DateTimeField(auto_now_add=True)
     response = models.TextField(max_length=10000, null=True, blank=True)
 
