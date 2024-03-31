@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from django.views.generic.base import TemplateView #import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
@@ -29,10 +29,12 @@ urlpatterns = [
 
     path("", views.home, name="home"),
     
-    re_path("robots.txt\/?$",TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),  #add the robots.txt file
+    re_path("robots.txt",TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),  #add the robots.txt file
 
     path('privacy_policy/', views.privacy_policy, name="privacy_policy",),
     path('terms_and_conditions/', views.terms_and_conditions, name="terms_and_conditions",),
+    
+    path('ai/', include('ai.urls')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,71 @@
+<form class="" novalidate 
+hx-post={% url "submit_create_headline_form_htmx" %}
+hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+hx-target="#submitHeadlineResponse"
+hx-swap="outerHTML"
+>
+    <div class="my-2">
+      <label for="validationCustom01" class=" fw-bold form-label">Copy and paste your article here</label>
+      <textarea type="text" max-length="20000" rows=10 class="form-control" id="validationCustom01"  required></textarea>
+      <div class="float-right text-small text-end">Max character limit of 20 000</div>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+        Enter your article here. We feed this to the AI to come up with headline suggestions
+      </div>
+    </div>
+    <div class="my-2">
+      <label for="validationCustom02" class="fw-bold form-label">Enter a tone (optional)</label>
+      <input type="text" class="form-control" id="validationCustom02" value="" >
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+    </div>
+
+
+    <div class="my-2">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+        <label class="form-check-label" for="invalidCheck">
+          Agree to terms and conditions
+        </label>
+        <div class="invalid-feedback">
+          You must agree before submitting.
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <button class="btn site-button float-end" type="submit">Create</button>
+    </div>
+  </form>
+                      
+
+  <script>
+                      // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+          'use strict'
+
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          const forms = document.querySelectorAll('.needs-validation')
+
+          // Loop over them and prevent submission
+          Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+              if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+              }
+
+              form.classList.add('was-validated')
+            }, false)
+          })
+        })()
+
+
+  </script>
+
+
+  <div id="submitHeadlineResponse">
+
+  </div>

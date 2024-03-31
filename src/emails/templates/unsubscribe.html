@@ -1,0 +1,100 @@
+{% extends "home_site/base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+
+        <!--========== Hero Section Start ==============-->
+        <section class="tj-hero-section-two">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="hero-content-two text-center">
+                            <div class="tj-sec-heading-two">
+                                <h1 class="title">Sorry to see you go!
+                                </h1>
+                                <p class="desc">
+                                    Unsubscribing from our email list means missing out on valuable insights, tips, and updates on the
+                                     latest product development and marketing strategies that can help propel your business to success.
+                                      Our emails are designed to provide you with actionable information that can truly make a 
+                                      difference in how you reach your target audience and boost your bottom line.
+                                    <br><br>
+                                    By staying subscribed, you have the opportunity to stay ahead of the curve and gain a 
+                                    competitive edge in the ever-evolving world of product development and marketing. 
+                                    Our team of experts is dedicated to bringing you the most cutting-edge advice and
+                                     best practices, ensuring that you have the tools and knowledge you need to stay
+                                      on top of your game.
+                                    <br><br>
+                                    Don't miss out on the opportunity to learn from industry leaders, gain valuable insights,
+                                     and stay informed about the latest trends and technologies that can help drive your 
+                                     business forward. Stay subscribed to our email list and continue on the path to success 
+                                     in your product development and marketing endeavors.
+
+                                </p>
+                            </div>
+                        </div>
+                        <form 
+                        hx-post="{% url 'unsubscribe_email' %}"
+                        hx-swap="outerHTML show:top"
+                        >
+                            <div class="hero-middle-area">
+                                <div class="hero-input-form">
+
+                                        <div class="hero-input">
+
+                            
+                                            <input
+                                                type="email"
+                                                id="mail"
+                                                name="email"
+                                                placeholder="Enter your email address"
+                                                required=""
+                                            />
+                                        </div>
+                                        <div class="tj-hero-button">
+                                            <button class="btn site-button" type="submit" value="submit">
+                                                Unsubscribe
+                                            </button>
+
+                                    
+                                         
+                                        </div>
+
+
+                                </div>
+                            </div>
+
+                        </form>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="hero-overly-image pulse">
+                <img src="{% static 'saasify_theme/assets/images/shape/overly-12.svg' %}" alt="overly" />
+            </div>
+            <div class="hero-overly-image1">
+                <img src="{% static 'saasify_theme/assets/images/shape/overly-13.svg' %}" alt="overly" />
+            </div>
+            <div class="tj-star-box">
+                <img class="star-1" src="{% static 'saasify_theme/assets/images/icon/star-1.png' %}" alt="Icons" />
+                <img class="star-2" src="{% static 'saasify_theme/assets/images/icon/star-2.png' %}" alt="Icons" />
+                <img class="star-3" src="{% static 'saasify_theme/assets/images/icon/star-3.png' %}" alt="Icons" />
+                <img class="star-4" src="{% static 'saasify_theme/assets/images/icon/star-2.png' %}" alt="Icons" />
+                <img class="star-5" src="{% static 'saasify_theme/assets/images/icon/star-3.png' %}" alt="Icons" />
+                <img class="star-6" src="{% static 'saasify_theme/assets/images/icon/star-4.png' %}" alt="Icons" />
+                <img class="star-7" src="{% static 'saasify_theme/assets/images/icon/star-3.png' %}" alt="Icons" />
+                <img class="star-8" src="{% static 'saasify_theme/assets/images/icon/star-4.png' %}" alt="Icons" />
+            </div>
+        </section>
+        <!--========== Hero Section End ==============-->
+
+
+
+
+
+
+
+
+{% endblock content %}
+

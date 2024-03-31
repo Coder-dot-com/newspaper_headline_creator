@@ -1,0 +1,91 @@
+              <!--begin::Col-->
+              <div class="col-md-6 col-lg-4 col-xl-3">
+                <div class="d-flex h-100 align-items-center">
+                    <!--begin::Option-->
+                    <div class="w-100 d-flex flex-column flex-center rounded-3 bg-light bg-opacity-75 py-15 px-10 border border-3
+                    {% if choice.tier.type == "business" %}border-dark{% endif %}
+                    {% if not choice.tier.type == "free_tier" %}shadow-lg{% endif %}
+                    ">
+                        <!--begin::Heading-->
+                        <div class="mb-7 text-center">
+                            <!--begin::Title-->
+                            <h1 class="text-gray-900 mb-5 fw-bolder">{{choice.tier.display_name}}</h1>
+                            <!--end::Title-->
+                            <!--begin::Description-->
+                            <div class="text-gray-600 fw-semibold mb-5">
+                                {{choice.tier.who_for}}
+                            </div>
+                            <!--end::Description-->
+                            <!--begin::Price-->
+                            
+                            <div class="text-center">
+                                <span class="mb-2 text-primary">$</span>
+                                <span class="fs-3x fw-bold text-primary" >{{choice.monthly_price}}</span>
+                                <span class="fs-7 fw-semibold opacity-50">per
+                                <span data-kt-element="period">month</span></span>
+                                {% if choice.renewal_frequency == "annually" %}
+                                <div>Billed at
+                                    <span class="">$</span>
+                                    <span class="" >{{choice.price}}</span>
+                                    <span class="" >annually</span>
+                                </div>
+                                
+                                {% endif %}
+                                
+                            </div>
+                            <!--end::Price-->
+                        </div>
+                        <!--end::Heading-->
+                        <!--begin::Features-->
+                        <div class="d-flex flex-wrap justify-content-center text-center">
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center mb-5">
+                                <i class="ki-outline ki-check-circle fs-1 text-success"></i>
+                                <span class="fw-semibold fs-6 text-gray-800 flex-grow-1 pe-3 ms-4">Up to {{choice.tier.workspaces}} workspaces</span>
+                            </div>
+                            <!--end::Item-->
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center mb-5">
+                                <i class="ki-outline ki-check-circle fs-1 text-success"></i>
+                                <span class="fw-semibold fs-6 text-gray-800 flex-grow-1 pe-3 ms-4">Up to {{choice.tier.roadmaps}} roadmap(s)</span>
+                            </div>
+                            <!--end::Item-->
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center mb-5">
+                                <i class="ki-outline ki-check-circle fs-1 text-success"></i>
+                                <span class="fw-semibold fs-6 text-gray-800 flex-grow-1 pe-3 ms-4">Up to {{choice.tier.timelines}} timeline(s)</span>
+                            </div>
+                            <!--end::Item-->
+                            <!--begin::Item-->
+                            <div class="d-flex align-items-center mb-5">
+                                <i class="ki-outline ki-check-circle fs-1 text-success"></i>
+                                <span class="fw-semibold fs-6 text-gray-800 flex-grow-1 pe-3 ms-4">{{choice.tier.monthly_ai_credits}} monthly AI credits</span>
+                            </div>
+                            <!--end::Item-->
+                            {% comment %} <!--begin::Item-->
+                            <div class="d-flex align-items-center mb-5">
+                                <span class="fw-semibold fs-6 text-gray-600 flex-grow-1">Finance Module</span>
+                                <i class="ki-outline ki-cross-circle fs-1"></i>
+                            </div>
+                            <!--end::Item--> {% endcomment %}
+                       
+                        </div>
+                        <!--end::Features-->
+                        <!--begin::Select-->
+                        {% if not choice.tier.type == "free_tier" %}
+                        <a 
+                        hx-get={% url "subscribe_modal_htmx" choice.id %}
+                        hx-target="#subscribeModalContent"
+                        hx-swap="outerHTML"
+                        hx-indicator="#stripeLoadIndicator"
+                        
+                        data-bs-toggle="modal" data-bs-target="#subscribeModal" class="btn site-button">
+                            Select
+                        </a>
+                        {% endif %}
+                        <!--end::Select-->
+                    </div>
+                    <!--end::Option-->
+                </div>
+            </div>
+            <!--end::Col-->

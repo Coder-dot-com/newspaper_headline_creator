@@ -5,19 +5,36 @@
 {% block content %}
 
 
-<div class="container">
+<div class="container mt-5">
     <div class="row flex-lg-row-reverse align-items-center g-5 py-5 bg-black text-white rounded-top">
 								
         <div class="col-12">
         
-          <h1 class="display-5 fw-bold lh-1 mb-3 text-center">Generate newspaper headlines <span class="text-primary text-underline">instantly</span></h1>
+          <h1 class="display-5 fw-bold lh-1 mb-3 text-center">Generate newspaper headlines and titles <span class="text-primary text-underline">instantly</span></h1>
           <p class="lead text-center">Powered by AI </p>
           <div class="d-grid gap-2 d-md-flex justify-content-center">
-            <a href="" class="btn site-button btn-lg px-4 my-10">Create now</a>
+            <a href="#createNow" class="btn site-button btn-lg px-4 my-10">Create now</a>
           </div>
         </div>
+        <div class="text-center">
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
     </div>
- 
+
+
+     <div id="createNow" class="row flex-lg-row-reverse align-items-center g-5 py-5 ">
+
+      <h2 class="display-6 fw-bold  text-center">Create now</h2>
+
+      <div id="createHeadlineForm" class="col-md-9 col-lg-6 p-5 mx-auto g-3 needs-validation border border-dark border-3 rounded">
+        <div hx-get={% url "create_headline_form_htmx" %} hx-trigger=load></div>
+      </div>
+        
+
+
+
+    </div>
+
 
     
 

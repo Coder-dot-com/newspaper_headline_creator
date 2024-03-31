@@ -1,0 +1,15 @@
+{% autoescape off %}
+<h3>
+    Hi {{ user_email }},
+</h3>
+
+To confirm your email click the link below:
+<br><br>
+<a href="{{activation_link}}">Confirm email</a>
+<br><br>
+If clicking the link above doesn't work, please copy and paste the URL in a new browser
+window instead. <br> <br>
+
+{{activation_link}}
+
+{% endautoescape %}

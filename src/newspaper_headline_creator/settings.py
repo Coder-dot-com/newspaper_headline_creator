@@ -153,7 +153,16 @@ INSTALLED_APPS = [
         #s3
     'storages',
 
-    'site_settings'
+    'site_settings',
+    'accounts',
+    'emails',
+
+    'tiers',
+    'subscriptions',
+
+    'ai',
+    
+    
 ]
 
 MIDDLEWARE = [

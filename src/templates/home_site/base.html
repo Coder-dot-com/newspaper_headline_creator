@@ -15,7 +15,7 @@
 {{site.site_global_analytics}}
 {% endautoescape %}
 
-<body>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 
     <div class="container">
 

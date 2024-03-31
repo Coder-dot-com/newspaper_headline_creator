@@ -1,0 +1,258 @@
+<div id="kt_app_content" class="app-content flex-column-fluid">
+    
+    <div id="kt_app_content_container" class="app-container container-fluid"> 
+        {% if user_subscription %}
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <h5 class="card-title">Your current subscription</h5>
+                        <div class="card-body">
+                            Amount: ${{user_subscription.amount_subscribed}} USD
+                            
+                            <br>
+                            Status: {{user_subscription.status | title}}
+                            <br>
+                            Tier: {{user_subscription.subscription_choice.tier}}
+                            <br>
+                            Renewal: {{user_subscription.renewal_frequency | title}}
+                            <br>
+                            {% if user_subscription.next_due %}
+                                {% if  user_subscription.status == 'cancelled' %}
+                                    Was going to renew on : {{user_subscription.next_due |date:'d-M-y' }}
+                                    <br>
+
+                                    <div class="my-1">
+                                        <center>
+                                            <b>Re-subscribe now, your new subscription will begin the day before your cancelled subscription expires.
+                                                Your subscription will include any days you have left converted to your new plan
+                                            </b>
+                                        </center>
+                                    </div>
+                                {% else %}
+                                    Next payment: {{user_subscription.next_due |date:'d-M-y' }}
+                                {% endif %}
+                            {% endif %}
+
+                            <div class="d-flex ">
+
+                                {% if  user_subscription.status != 'cancelled' %}
+                                    <a href="{% url 'cancel_subscription' %}" data-key="">
+                                        Cancel subscription?
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                            {% if user_subscription_with_greater_tier %}
+                            
+                            <div class="d-flex text-center my-5 mx-auto">
+                                You currently have a subscription that has been cancelled for the {{user_subscription_with_greater_tier.subscription_choice.tier}} plan
+                                that expires on {{user_subscription_with_greater_tier.next_due |date:'d-M-y' }}. After this any new plans will start.
+
+                            </div>
+                            {% endif %}
+                        </div>
+                        <!-- end card body -->
+                    </div>
+                    <!-- end card -->
+                </div>
+                <!-- end col -->
+            </div>
+        {% endif %}
+
+
+
+
+        <div class="text-center my-5">
+            <h2 class="display-4">
+                Pricing
+            </h2>
+        </div>
+
+
+        <ul class="nav nav-tabs nav-line-tabs mb-5 fs-6 justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link text-black fs-2 active" data-bs-toggle="tab" href="#kt_tab_pane_1">Monthly</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black fs-2" data-bs-toggle="tab" href="#kt_tab_pane_2">Annual</a>
+            </li>
+
+        </ul>
+        
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
+                <div class="container">
+                    <div class="row align-items-start justify-content-center ">
+                        {% for choice in subscription_choices %}
+                            {% if choice.renewal_frequency == "monthly" %}
+                                {% include "includes/subscription_choice_column.html" %}
+                            {% endif %}
+                        {% endfor %}                                            
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
+                <div class="container">
+                    <div class="row align-items-start justify-content-center">
+                        {% for choice in subscription_choices %}
+                            {% if choice.renewal_frequency == "annually" %}
+                                {% include "includes/subscription_choice_column.html" %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                
+            </div>
+   
+        </div>  
+
+        <div class="row  rounded p-10 my-10 shadow-lg">
+            <div class="text-center my-5">
+                <h2 class="display-6">
+                    Enterprise?
+                </h2>
+                <div>
+                    For large organizations that want to level up their entire product development process
+                </div>
+            </div>
+
+                                    <!--begin::Features-->
+                                    <div class="d-flex flex-wrap justify-content-center text-center mb-5">
+                                        <!--begin::Item-->
+                                        <div class="d-flex align-items-center mb-5">
+                                            <i class="ki-outline ki-check-circle fs-1 text-success"></i>
+                                            <span class="fw-semibold fs-6 text-gray-800 text-center pe-3 ms-4">Unlimited workspaces</span>
+                                        </div>
+                                        <!--end::Item-->
+                                        <!--begin::Item-->
+                                        <div class="d-flex align-items-center mb-5">
+                                            <i class="ki-outline ki-check-circle fs-1 text-success"></i>
+                                            <span class="fw-semibold fs-6 text-gray-800  pe-3 ms-4">Unlimited roadmaps</span>
+                                        </div>
+                                        <!--end::Item-->
+                                        <!--begin::Item-->
+                                        <div class="d-flex align-items-center mb-5">
+                                            <i class="ki-outline ki-check-circle fs-1 text-success"></i>
+                                            <span class="fw-semibold fs-6 text-gray-800  pe-3 ms-4">Unlimited timelines</span>
+                                        </div>
+                                        <!--end::Item-->
+                                        <!--begin::Item-->
+                                        <div class="d-flex align-items-center mb-5">
+                                            <i class="ki-outline ki-check-circle fs-1 text-success"></i>
+                                            <span class="fw-semibold fs-6 text-gray-800  pe-3 ms-4">Up to 100 000 monthly AI credits</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-5">
+                                            <i class="ki-outline ki-check-circle fs-1 text-success"></i>
+                                            <span class="fw-semibold fs-6 text-gray-800  pe-3 ms-4">Priority support</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-5">
+                                            <i class="ki-outline ki-check-circle fs-1 text-success"></i>
+                                            <span class="fw-semibold fs-6 text-gray-800  pe-3 ms-4">Custom feature development (dependant on request)</span>
+                                        </div>
+                                        <!--end::Item-->
+                                        {% comment %} <!--begin::Item-->
+                                        <div class="d-flex align-items-center mb-5">
+                                            <span class="fw-semibold fs-6 text-gray-600 flex-grow-1">Finance Module</span>
+                                            <i class="ki-outline ki-cross-circle fs-1"></i>
+                                        </div>
+                                        <!--end::Item--> {% endcomment %}
+                                   
+                                    </div>
+                                    <!--end::Features-->
+
+            <div class="d-flex justify-content-center">
+                <button data-bs-toggle="modal" data-bs-target="#contactUsEnterprise" class="btn site-button mx-auto">Contact us</button>
+            </div>
+        </div>
+ 
+    </div>
+  </div>
+
+
+  <div class="modal fade" tabindex="" id="subscribeModal">
+    <div class="modal-dialog">
+        <div class="modal-content" id="subscribeModalContent">
+            <div class="modal-body d-flex justify-content-center">
+
+                <div class="d-flex justify-content-center">
+                    <div id="stripeLoadIndicator" class="spinner-border htmx-indicator mx-auto " role="status">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="" id="contactUsEnterprise">
+    <div class="modal-dialog">
+        <div class="modal-content" id="subscribeModalContent">
+            <div class="modal-header">
+                <h3>Get in touch about our Enterprise plan</h3>
+            </div>
+            <div class="modal-body"> 
+                <form 
+                    hx-post={% url "enterprise_contact_us" %}
+                    hx-swap=outerHTML>
+
+                    <div class=" mb-8">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                            <span class="fs-4">Enter your name </span>
+                            </span>
+                        </label>
+                        <!--end::Label-->								
+                        <input  required="" class="form-control form-control-solid"name="name" placeholder="Enter your first name and last name" maxlength="1000">
+                    </div>
+
+                    <div class="mb-8">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                            <span class="fs-4">Enter your email here</span>
+                            </span>
+                        </label>
+                        <!--end::Label-->								
+                        <input type="email" required="" class="form-control form-control-solid"  name="email" placeholder="Enter your email here" maxlength="1000">
+                    </div>
+                
+                    <div class=" mb-8">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                            <span class="fs-4">Enter your message here</span>
+                            </span>
+                        </label>
+                        <!--end::Label-->								
+                        <textarea  required="" class="form-control form-control-solid" rows="5" name="information" placeholder="Enter your response here" maxlength="5000"></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn site-button mx-auto" >Send</button>
+                    </div>
+                </form>
+
+                <div class="d-flex justify-content-center">
+                    <div id="stripeLoadIndicator" class="spinner-border htmx-indicator mx-auto " role="status">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .htmx-indicator{
+        opacity:0;
+        transition: opacity 500ms ease-in;
+    }
+    .htmx-request .htmx-indicator{
+        opacity:1
+    }
+    .htmx-request.htmx-indicator{
+        opacity:1
+    }
+</style>
+

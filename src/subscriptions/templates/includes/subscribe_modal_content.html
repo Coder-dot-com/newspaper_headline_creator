@@ -1,0 +1,57 @@
+<div class="modal-content" id="subscribeModalContent">
+    <div class="modal-header">
+        <h3 class="modal-title">Subscribe now</h3>
+        <!--begin::Close-->
+        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+        </div>
+        <!--end::Close-->
+    </div>
+    <div class="modal-body">
+        <div class="d-flex justify-content-center">
+            <div id="stripeLoadIndicator" class="spinner-border htmx-indicator mx-auto " role="status">
+            </div>
+        </div>
+
+        {% if not existing_higher_tier_subscription %}
+            {% if remaining_days %}
+            {% if trial_period_days %}
+            <div class="mx-auto my-3 text-center">
+            Any remaining days on your old plan or free trial have successfully been converted to your new plan giving you {{trial_period_days}} days. <br>
+            Payment for your new plan will start after these converted days run out on {{user_subscription.next_due |date:'d-M-y' }}.
+            </div>
+            {% endif %}
+            {% endif %}
+
+
+        {% elif existing_higher_tier_subscription %}
+            <div class="mx-auto my-3 text-center">
+            We noticed you had an old plan of a higher tier so this will remain active until it expires then your new plan will start on 
+            {{user_subscription.next_due |date:'d-M-y' }}
+
+            </div>
+
+            <hr>
+        {% endif %}
+        <div>
+            <h3>Your plan details</h3><br>
+            Tier: {{choice.tier.display_name}}
+            <br>
+            Renewal: {{choice.renewal_frequency }}
+            <br>
+            Payment: ${{choice.price}} {{choice.renewal_frequency }}
+        </div>
+
+        <hr>
+        <div class="my-5">
+
+        <h3>Payment details</h3>
+
+        {% include "includes/stripe_payment_component.html" %}
+
+
+        </div>
+    </div>
+
+ 
+</div>

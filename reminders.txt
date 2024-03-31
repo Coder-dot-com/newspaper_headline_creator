@@ -1,0 +1,3 @@
+start celery windows
+celery -A newspaper_headline_creator worker -l info -P gevent
+celery -A newspaper_headline_creator beat -l info
