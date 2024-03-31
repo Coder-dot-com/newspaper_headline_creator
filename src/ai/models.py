@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 import uuid
+from emails.models import UserEmail
 
 User = get_user_model() 
 # Create your models here.
@@ -13,6 +14,7 @@ class UserAI(models.Model):
     
 class HeadlineRequest(models.Model):
     user_ai = models.ForeignKey(UserAI, on_delete=models.CASCADE, null=True, blank=True)
+    email = models.ForeignKey(UserEmail, on_delete=models.SET_NULL, null=True, blank=True)
     session_id  = models.CharField(max_length=1000, null=True, blank=True)
     unique_id = models.UUIDField(default = uuid.uuid4,) 
     input_phrase = models.TextField(max_length=10000)

@@ -9,7 +9,9 @@ class UserEmail(models.Model):
     promo_consent = models.BooleanField(default=False)
     date_time_added = models.DateTimeField(auto_now_add=True)
 
-    #has signal listening for create to sync with sendinblue/email platform 
+    def __str__(self):
+        return self.email
+
 
 
 class SentEmail(models.Model):

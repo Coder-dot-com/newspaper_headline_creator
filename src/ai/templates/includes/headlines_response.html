@@ -21,15 +21,122 @@
 
     {% elif headline_request_object.response %}
     <br>
-    <h5>
+    <br>
+      {% if email %}
+    
         {% for headline  in headline_request_object.get_list_of_headlines %}
-    </h5>
     
-    {{headline}}
+      <h5>
+        {{headline}}
+      </h5>
+    
+      <br>
+      <br>
+      {% endfor %}
 
-    <br><br> 
-    
-    {% endfor %}
+
+      {% else %}
+
+        {% for headline  in headline_request_object.get_list_of_headlines %}
+          {% if forloop.counter == 1 %}
+        
+          <h5>
+            {{headline}}
+          </h5>
+        
+          <br>
+          <br>
+          {% endif %}
+        {% endfor %}
+
+        <a type="button" class="btn site-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          View more headlines/titles
+      </a>
+      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Enter your email to unlock more headlines</h1>
+              <button id="closeModalCaptureEmailForm" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form id="captureEmailForm" class="needs-validationCaptureEmail" novalidate 
+                  hx-post={% url "capture_email_headline_generator_htmx" headline_request_object.unique_id %} 
+                  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                  hx-target="#submitHeadlineResponse"
+                  hx-swap="outerHTML"
+                  hx-trigger="bs-send"
+                  >
+                      <div class="my-2">
+                        <label for="validationCustomEmail" class=" fw-bold form-label">Enter your email here</label>
+                        <input type="email" max-length="300" name="email" class="form-control" id="validationCustomEmail"  required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                          Enter your email, we will use it to send you relevant information about the news headline generator
+                        </div>
+                      </div>
+
+                      <div class="my-2">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="promoCheck" required>
+                            <label class="form-check-label" for="promoCheck">
+                              Agree to receive emails about the news headline generator including marketing
+                            </label>
+                            <div class="invalid-feedback">
+                              You must agree before unlocking.
+                            </div>
+                          </div>
+                        </div>
+                  
+                      <div class="col-12">
+                        <button class="btn site-button float-end" type="submit">Unlock</button>
+                      </div>
+                    </form>
+                                        
+                  <script>
+                  (function () {
+                    'use strict'
+                  
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.querySelectorAll('.needs-validationCaptureEmail')
+                  
+                    // Loop over them and prevent submission
+                    Array.prototype.slice.call(forms)
+                      .forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                          if (form.checkValidity()) {
+                            // trigger custom event hx-trigger="bs-send"
+                            htmx.trigger(form, "bsSend");
+                            document.querySelector('#closeModalCaptureEmailForm').click()
+
+                          }
+                  
+                          console.log('prevent')      
+                          event.preventDefault()
+                          event.stopPropagation()
+                  
+                          form.classList.add('was-validated')
+                        }, false)
+                      })
+                  })()
+                  
+                  </script>
+              
+
+              </div>
+          
+          </div>
+          </div>
+      </div>
+
+
+      {% endif %}
+      
+  
 
     
 

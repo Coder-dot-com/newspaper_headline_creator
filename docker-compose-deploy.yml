@@ -1,0 +1,72 @@
+version: "2.2"
+services:
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+
+  app:
+    build: 
+      context: .
+    volumes:
+      - static:/static
+      - .:/django   
+    environment:
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+    ports:
+      - "8000:8000"
+    env_file: 
+      - .env
+
+  celery:
+    restart: always
+    build:
+      context: .
+    command: ['celery', '-A', 'newspaper_headline_creator', 'worker', '-l', 'INFO']
+    volumes:
+      - .:/django
+    container_name: celery
+    depends_on:
+      - redis
+      - app
+    env_file:
+      - .env
+
+  # celery-beat:
+  #   restart: always
+  #   build:
+  #     context: .
+  #   command: ['celery', '-A', 'newspaper_headline_creator' ,'beat', '-l', 'INFO']
+  #   volumes:
+  #     - .:/django
+  #   container_name: celery-beat
+  #   depends_on:
+  #     - redis
+  #     - app
+  #   env_file:
+  #     - .env
+
+
+  nginx-proxy:
+    build: ./nginx
+    ports:
+      - 80:80
+    restart: always
+    depends_on:
+      - app
+    volumes:
+      - static:/static
+
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+  
+
+
+volumes:
+  static:
+  certs:
+  html:
+  vhost:
+  acme:

@@ -24,6 +24,8 @@ urlpatterns = [
 
     path("poll_create_headline_form_htmx/<uuid>", views_htmx.poll_create_headline_form_htmx, name="poll_create_headline_form_htmx"),
 
+    path("capture_email_headline_generator_htmx/<uuid>", views_htmx.capture_email_headline_generator_htmx, name="capture_email_headline_generator_htmx"),
+
 
 
 ] 
