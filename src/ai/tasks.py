@@ -45,11 +45,11 @@ def create_headlines_celery(session_id ,uuid):
                 messages=[
                     {
                     "role": "system",
-                    "content": "Write in plaintext. Write like a human. Do not use markdown formatting. Do not use * or #. Do not talk about other websites. Do not use numbers. Do not include an introduction. Write a bullet point list. You are a newspaper headline writer."
+                    "content": "Write in plaintext. Write like a human. Do not use markdown formatting. Do not use * or #. Do not talk about other websites. Do not use numbers. Do not include an introduction. Write a bullet point list. You are a book title writer."
                     },
                     {
                     "role": "user",
-                    "content": f"Generate a list of 10 {headline_request_object.tone} newspaper headlines for the following news article: '{headline_request_object.input_phrase}'"
+                    "content": f"Generate a list of 10 {headline_request_object.tone} book titles for a book that contains the  following text: '{headline_request_object.input_phrase}'"
                     },
                 ],
                 temperature=1.2,
